@@ -7,25 +7,14 @@ resource "aws_s3_bucket" "s3-1" {
   }
 
   force_destroy       = true    # force destroy even if the bucket not empty
-  object_lock_enabled = false    # Disable object lock
 }
 
 resource "aws_s3_bucket_ownership_controls" "controls" {
   bucket = aws_s3_bucket.s3-1.id
 
   rule {
-    object_ownership = "BucketOwnerPreferred"
+    object_ownership = "BucketOwnerEnforced"
   }
-}
-
-  # Block all public access
- resource "aws_s3_bucket_public_access_block" "block_public_acls" {
-  bucket = aws_s3_bucket.s3-1.id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
 }
 
  # Enable bucket versioning
